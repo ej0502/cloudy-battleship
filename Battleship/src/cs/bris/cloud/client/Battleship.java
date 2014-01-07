@@ -10,6 +10,8 @@ import com.google.gwt.user.client.ui.RootPanel;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class Battleship implements EntryPoint {
+	
+	private ContentController contentController = new ContentController();
 
 	/**
 	 * This is the entry point method.
@@ -19,12 +21,13 @@ public class Battleship implements EntryPoint {
 
 		// Add the nameField and sendButton to the RootPanel
 		// Use RootPanel.get() to get the entire body element
-		RootPanel.get("startButtonContainer").add(startButton);
+		RootPanel.get("content").add(startButton);
 
 		// Add a handler to close the DialogBox
 		startButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				System.out.println("Start button clicked, huzzah!");
+				contentController.setContent();
 			}
 		});
 	}
