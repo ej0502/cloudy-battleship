@@ -24,7 +24,7 @@ public class Battleship implements EntryPoint {
 		// Add a handler to close the DialogBox
 		startButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				System.out.println("Start button clicked!");
+				System.out.println("Start button clicked, huzzah!");
 			}
 		});
 	}
