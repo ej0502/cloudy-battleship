@@ -10,10 +10,17 @@
     <servlet-name>loginServlet</servlet-name>
     <servlet-class>cs.bris.cloud.server.LoginServiceImpl</servlet-class>
   </servlet>
-  
   <servlet-mapping>
     <servlet-name>loginServlet</servlet-name>
     <url-pattern>/battleship/login</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>gameServlet</servlet-name>
+    <servlet-class>cs.bris.cloud.server.GameServiceImpl</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>gameServlet</servlet-name>
+    <url-pattern>/battleship/game</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->

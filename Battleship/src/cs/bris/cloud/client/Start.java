@@ -63,10 +63,10 @@ public class Start extends Composite {
 						System.out.println("Start.java: RPC failed.");
 					}
 					public void onSuccess(String result) {
-						if (result.equals("logged in")) {
+						if (result.startsWith("logged in")) {
 							UserController.getInstance().setUser(username);
 							ContentController.getInstance().setContent(new Lobby());
-						} else if (result.equals("registered")) {
+						} else if (result.startsWith("registered")) {
 							dialogBox.setText("New account created!");
 							dialogBox.center();
 							UserController.getInstance().setUser(username);

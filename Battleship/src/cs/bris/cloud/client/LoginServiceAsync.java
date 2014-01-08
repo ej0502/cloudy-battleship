@@ -1,7 +1,6 @@
 package cs.bris.cloud.client;
 
 import java.util.List;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
