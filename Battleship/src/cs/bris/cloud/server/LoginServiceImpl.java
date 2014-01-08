@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cs.bris.cloud.client.LoginService;
-import cs.bris.cloud.client.UserController;
-
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -42,20 +40,16 @@ public class LoginServiceImpl extends RemoteServiceServlet implements
 			user.setProperty("password", password);
 			datastore.put(user);
 			addToLobby(username);
-			UserController.getInstance().setUser(username);
 			return "registered";
 		} else if (user.getProperty("password").equals(password)) {
 			addToLobby(username);
-			UserController.getInstance().setUser(username);
 			return "logged in";
 		} else {
 			return "false password";
 		}
 	}
 
-	public Boolean logoutServer() throws IllegalArgumentException {
-		String username = UserController.getInstance().getUser();
-		UserController.getInstance().setUser(null);
+	public Boolean logoutServer(String username) throws IllegalArgumentException {
 		removeFromLobby(username);
 		return true;
 	}

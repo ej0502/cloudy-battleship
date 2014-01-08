@@ -64,10 +64,12 @@ public class Start extends Composite {
 					}
 					public void onSuccess(String result) {
 						if (result.equals("logged in")) {
+							UserController.getInstance().setUser(username);
 							ContentController.getInstance().setContent(new Finish());
 						} else if (result.equals("registered")) {
 							dialogBox.setText("New account created!");
 							dialogBox.center();
+							UserController.getInstance().setUser(username);
 							ContentController.getInstance().setContent(new Finish());
 						} else if (result.equals("false password")) {
 							dialogBox.setText("Incorrect account details entered!");
