@@ -54,20 +54,20 @@ public class Lobby extends Composite {
 		        	  @Override
 		        	  public void onChannelCreated(Channel channel) {
 		        		  channel.open(new SocketListener() {
-				        	  @Override
-				        	  public void onOpen() {
-				        	  }
-				        	  @Override
-				        	  public void onMessage(String message) {
-				        	    System.out.println("Received: " + message);
-				        	  }
-				        	  @Override
-				        	  public void onError(SocketError error) {
-				        	    System.out.println("Error: " + error.getDescription());
-				        	  }
-				        	  @Override
-				        	  public void onClose() {
-				        	  }
+		        			  @Override
+		        			  public void onOpen() {}
+		        			  @Override
+		        			  public void onMessage(String message) {
+		        				  System.out.println("Received: " + message);
+		        				  // pop up decision box
+		        				  // send reply
+		        			  }
+		        			  @Override
+		        			  public void onError(SocketError error) {
+		        				  System.out.println("Error: " + error.getDescription());
+		        			  }
+		        			  @Override
+		        			  public void onClose() {}
 		        		  });
 		        	  }
 		        });
@@ -111,7 +111,7 @@ public class Lobby extends Composite {
 		});
 	}
 	
-	private Widget createUserRow(String username) {
+	private Widget createUserRow(final String username) {
 		HorizontalPanel row = new HorizontalPanel();
 		
 		Label userLabel = new Label(username);
@@ -119,7 +119,13 @@ public class Lobby extends Composite {
 		
 		challengeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				// send notification to server
+				gameService.sendChallenge(UserController.getInstance().getUser(), username, new AsyncCallback<Boolean>() {
+					public void onFailure(Throwable caught) {
+						System.out.println("Lobby.java: RPC failed.");
+					}
+					public void onSuccess(Boolean result) {
+					}
+				});
 			}
 		});
 		

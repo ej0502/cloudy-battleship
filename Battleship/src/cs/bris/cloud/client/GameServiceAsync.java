@@ -7,4 +7,5 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public interface GameServiceAsync {
 	void setupChannel(String username, AsyncCallback<String> callback) throws IllegalArgumentException;
+	void sendChallenge(String challenger, String challengedUser, AsyncCallback<Boolean> callback) throws IllegalArgumentException;
 }
