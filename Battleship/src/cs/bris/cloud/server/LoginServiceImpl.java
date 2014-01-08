@@ -60,7 +60,7 @@ public class LoginServiceImpl extends RemoteServiceServlet implements
 		List<Entity> userEntities = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(20));
 		List<String> users = new ArrayList<String>();
 		for (Entity userEntity : userEntities) {
-			users.add(userEntity.getKey().toString());
+			users.add(userEntity.getKey().getName());
 		}
 		return users;
 	}

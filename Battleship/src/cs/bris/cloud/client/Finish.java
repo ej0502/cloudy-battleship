@@ -42,8 +42,10 @@ public class Finish extends Composite {
 			}
 			public void onSuccess(List<String> users) {
 				for (String user : users) {
-					Label userLabel = new Label(user);
-					panel.add(userLabel);
+					if (!user.equals(UserController.getInstance().getUser())) {
+						Label userLabel = new Label(user);
+						panel.add(userLabel);
+					}
 				}
 			}
 		});
