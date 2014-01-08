@@ -8,10 +8,12 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
-public class Finish extends Composite {
+public class Lobby extends Composite {
 	
 	/**
 	 * Create a remote service proxy to talk to the server-side Login service.
@@ -19,7 +21,7 @@ public class Finish extends Composite {
 	private final LoginServiceAsync loginService = GWT
 			.create(LoginService.class);
 	
-	public Finish() {
+	public Lobby() {
 		final VerticalPanel panel = new VerticalPanel();
 		
 		final Timer timer = new Timer() {
@@ -43,8 +45,7 @@ public class Finish extends Composite {
 			public void onSuccess(List<String> users) {
 				for (String user : users) {
 					if (!user.equals(UserController.getInstance().getUser())) {
-						Label userLabel = new Label(user);
-						panel.add(userLabel);
+						panel.add(createUserRow(user));
 					}
 				}
 			}
@@ -56,7 +57,6 @@ public class Finish extends Composite {
 		final Button finishButton = new Button("Logout");
 		panel.add(finishButton);
 		
-		// Add a handler to close the DialogBox
 		finishButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				loginService.logoutServer(UserController.getInstance().getUser(), new AsyncCallback<Boolean>() {
@@ -70,5 +70,23 @@ public class Finish extends Composite {
 				});
 			}
 		});
+	}
+	
+	private Widget createUserRow(String username) {
+		HorizontalPanel row = new HorizontalPanel();
+		
+		Label userLabel = new Label(username);
+		Button challengeButton = new Button("Challenge");
+		
+		challengeButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				// deal with sending a challenge via dialog box to another player and then the response
+			}
+		});
+		
+		row.add(userLabel);
+		row.add(challengeButton);
+		
+		return row;
 	}
 }
