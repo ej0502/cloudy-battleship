@@ -1,5 +1,7 @@
 package cs.bris.cloud.client;
 
+import java.util.List;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -9,4 +11,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("login")
 public interface LoginService extends RemoteService {
 	String loginServer(String username, String password) throws IllegalArgumentException;
+	Boolean logoutServer() throws IllegalArgumentException;
+	List<String> getLoggedInUsers() throws IllegalArgumentException;
 }

@@ -57,9 +57,10 @@ public class Start extends Composite {
 		// Add a handler to close the DialogBox
 		loginButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				loginService.loginServer(usernameTextBox.getText(), passwordTextBox.getText(), new AsyncCallback<String>() {
+				final String username = usernameTextBox.getText();
+				loginService.loginServer(username, passwordTextBox.getText(), new AsyncCallback<String>() {
 					public void onFailure(Throwable caught) {
-						System.out.println("RPC failed.");
+						System.out.println("Start.java: RPC failed.");
 					}
 					public void onSuccess(String result) {
 						if (result.equals("logged in")) {
