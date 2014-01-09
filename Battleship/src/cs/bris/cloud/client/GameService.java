@@ -12,6 +12,6 @@ public interface GameService extends RemoteService {
 	Boolean sendChallenge(String challenger, String challengedUser);
 	Boolean challengeReply(String challenger, Boolean reply);
 	String setupGameChannel(String username);
-	Boolean sendPositions(String username, String opponent);
-	Boolean checkHit(String username, String opponent);
+	Boolean sendPositions(String username, String opponent, int[][] ships);
+	Boolean checkHit(String username, String opponent, int[] target);
 }

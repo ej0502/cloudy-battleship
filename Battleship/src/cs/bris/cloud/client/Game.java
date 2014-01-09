@@ -9,22 +9,18 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class Game extends Composite {
 
 	private final GameServiceAsync gameService = GWT.create(GameService.class);
-	
+	private ClientGame game;
 	public Game(String opponent) {
 		// construct UI here
-		final VerticalPanel panel = new VerticalPanel();
-		initWidget(panel);
+		game = new ClientGame(opponent);
+		initWidget(game);
 		
 		// call setupChannel
 		setupChannel();
-		
-		// call setPosition
-		setPositions(opponent);
 	}
 	
 	private void setupChannel() {
@@ -44,12 +40,16 @@ public class Game extends Composite {
 		        				  String opponent;
 		        				  if (message.contains("newturn")) {
 		        					  opponent = message.substring(0, message.indexOf("newturn"));
-		        					  if (message.contains("hit")) updateUI(true);
-		        					  else updateUI(false);
-		        					  getTarget(opponent);
+		        					  int indexOfTarget = message.indexOf('-') + 1;
+		        					  int x = Integer.parseInt(message.substring(indexOfTarget, indexOfTarget + 1));
+		        					  int y = Integer.parseInt(message.substring(indexOfTarget + 1, indexOfTarget + 2));
+		        					  int[] target = {x, y};
+		        					  if (message.contains("hit")) game.updateUI(true, false, target);
+		        					  else game.updateUI(false, false, target);
+		        					  game.getTarget();
 		        				  } else if (message.contains("turn")) {
 		        					  opponent = message.substring(0, message.indexOf("turn"));
-		        					  getTarget(opponent);
+		        					  game.getTarget();
 		        				  } else if (message.contains("finish")) {
 		        					  opponent = message.substring(0, message.indexOf("finish"));
 		        					  if (message.contains("win")) {
@@ -73,38 +73,5 @@ public class Game extends Composite {
 		        });
 			}
 		});
-	}
-	
-	private void setPositions(String opponent) {
-		// code for placing ships
-		
-		// RPC to GameService to pass ship positions
-		gameService.sendPositions(UserController.getInstance().getUser(), opponent, /* positions object */ new AsyncCallback<Boolean>() {
-			public void onFailure(Throwable caught) {
-				System.out.println("Game.java: RPC failed.");
-			}
-			public void onSuccess(Boolean result) {
-				// do nothing, further communication through channel
-			}
-		});
-	}
-	
-	private void getTarget(String opponent) {
-		// code for choosing target
-		
-		// RPC to GameService to send move
-		gameService.checkHit(UserController.getInstance().getUser(), opponent, /* target object */ new AsyncCallback<Boolean>() {
-			public void onFailure(Throwable caught) {
-				System.out.println("Game.java: RPC failed.");
-			}
-			public void onSuccess(Boolean result) {
-				// if true hit, if false miss
-				updateUI(result);
-			}
-		});
-	}
-	
-	private void updateUI(Boolean result) {
-		// code for updating UI based on hit/miss
 	}
 }

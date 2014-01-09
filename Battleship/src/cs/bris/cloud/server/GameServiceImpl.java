@@ -38,7 +38,7 @@ public class GameServiceImpl extends RemoteServiceServlet implements GameService
 		return channelService.createChannel(username + "game");
 	}
 
-	public Boolean sendPositions(String username, String opponent) {
+	public Boolean sendPositions(String username, String opponent, int[][] ships) {
 		// add positions to datastore
 		
 		// check if other client has replied yet
@@ -49,7 +49,7 @@ public class GameServiceImpl extends RemoteServiceServlet implements GameService
 		return true;
 	}
 	
-	public Boolean checkHit(String username, String opponent) {
+	public Boolean checkHit(String username, String opponent, int[] target) {
 		// check if hit or miss
 		Boolean hit = true;
 		
@@ -62,8 +62,8 @@ public class GameServiceImpl extends RemoteServiceServlet implements GameService
 		// }
 		
 		// send communication to opponent saying its turn and hit/miss
-		// if (hit) channelService.sendMessage(new ChannelMessage(opponent + "game", opponent + "newturnhit"));
-		// else channelService.sendMessage(new ChannelMessage(opponent + "game", opponent + "newturnmiss"));
+		// if (hit) channelService.sendMessage(new ChannelMessage(opponent + "game", opponent + "newturnhit-" + target[0] + target[1]));
+		// else channelService.sendMessage(new ChannelMessage(opponent + "game", opponent + "newturnmiss-" + target[0] + target[1]));
 		
 		// return true if hit, false if miss
 		return hit;
