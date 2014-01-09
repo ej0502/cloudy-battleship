@@ -8,6 +8,10 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  */
 @RemoteServiceRelativePath("game")
 public interface GameService extends RemoteService {
-	String setupChannel(String username);
+	String setupLobbyChannel(String username);
 	Boolean sendChallenge(String challenger, String challengedUser);
+	Boolean challengeReply(String challenger, Boolean reply);
+	String setupGameChannel(String username);
+	Boolean sendPositions(String username, String opponent);
+	Boolean checkHit(String username, String opponent);
 }

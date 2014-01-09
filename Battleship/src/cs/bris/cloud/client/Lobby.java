@@ -11,6 +11,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -45,7 +46,7 @@ public class Lobby extends Composite {
 	}
 	
 	private void setupChannel() {
-		gameService.setupChannel(UserController.getInstance().getUser(), new AsyncCallback<String>() {
+		gameService.setupLobbyChannel(UserController.getInstance().getUser(), new AsyncCallback<String>() {
 			public void onFailure(Throwable caught) {
 				System.out.println("Lobby.java: RPC failed.");
 			}
@@ -58,16 +59,34 @@ public class Lobby extends Composite {
 		        			  public void onOpen() {}
 		        			  @Override
 		        			  public void onMessage(String message) {
-		        				  System.out.println("Received: " + message);
-		        				  // pop up decision box
-		        				  // send reply
+		        				  if (message.contains("challenge")) {
+		        					  final String opponent = message.substring(0, message.indexOf("challenge"));
+		        					  Boolean response = Window.confirm("Accept challenge from: " + opponent + "?");
+		        					  gameService.challengeReply(opponent, response, new AsyncCallback<Boolean>() {
+		        						  public void onFailure(Throwable caught) {
+		        							  System.out.println("Lobby.java: RPC failed.");
+		        						  }
+		        						  public void onSuccess(Boolean result) {
+				        					  ContentController.getInstance().setContent(new Game(opponent));
+		        						  }
+		        					  });
+		        				  } else if (message.contains("accepted")) {
+		        					  String opponent = message.substring(0, message.indexOf("accepted"));
+		        					  Window.alert("Challenge accepted.");
+		        					  ContentController.getInstance().setContent(new Game(opponent));
+		        					  // start game
+		        				  } else if (message.contains("rejected")) {
+		        					  Window.alert("Challenge rejected.");
+		        				  }
 		        			  }
 		        			  @Override
 		        			  public void onError(SocketError error) {
 		        				  System.out.println("Error: " + error.getDescription());
 		        			  }
 		        			  @Override
-		        			  public void onClose() {}
+		        			  public void onClose() {
+		        				  System.out.println(UserController.getInstance().getUser() + ": channel closed.");
+		        			  }
 		        		  });
 		        	  }
 		        });
