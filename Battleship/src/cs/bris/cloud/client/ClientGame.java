@@ -238,7 +238,7 @@ public class ClientGame extends Composite {
     }
     
     private void initPlacement() {
-        System.out.println("placementStart");
+        //System.out.println("placementStart");
         label1.setText("Place your ships!");
         label2.setText("Place the aircraft carrier (length 5)");
     }
